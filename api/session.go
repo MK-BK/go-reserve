@@ -7,16 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func CreateSession(c *gin.Context) {
-	var session models.Session
-	if err := GE.SessionManage.CreateSession(&session); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
-		return
-	}
-}
-
 func ListSessions(c *gin.Context) {
-	sessions, err := GE.SessionManage.ListSession()
+	sessions, err := GE.SessionManage.List()
 	if err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
 		return
@@ -24,9 +16,22 @@ func ListSessions(c *gin.Context) {
 	c.JSON(http.StatusOK, sessions)
 }
 
+func CreateSession(c *gin.Context) {
+	var session models.Session
+	if err := c.ShouldBind(&session); err != nil {
+		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		return
+	}
+
+	if err := GE.SessionManage.Create(&session); err != nil {
+		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		return
+	}
+}
+
 func GetSession(c *gin.Context) {
-	var id string
-	session, err := GE.SessionManage.GetSession(id)
+	id := c.Param("id")
+	session, err := GE.SessionManage.Get(id)
 	if err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
 		return
@@ -36,7 +41,7 @@ func GetSession(c *gin.Context) {
 
 func DeleteSession(c *gin.Context) {
 	var id string
-	if err := GE.SessionManage.DeleteSession(id); err != nil {
+	if err := GE.SessionManage.Delete(id); err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
 		return
 	}
@@ -44,6 +49,11 @@ func DeleteSession(c *gin.Context) {
 
 func SendMessage(c *gin.Context) {
 	var message models.Message
+	if err := c.ShouldBind(&message); err != nil {
+		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		return
+	}
+
 	if err := GE.SessionManage.SendMessage(&message); err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
 		return

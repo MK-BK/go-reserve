@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ListProduct(c *gin.Context) {
+func ListShop(c *gin.Context) {
 	productes, err := GE.ProductManage.List()
 	if err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
@@ -17,15 +17,20 @@ func ListProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, productes)
 }
 
-func CreateProduct(c *gin.Context) {
-	var product *models.Product
+func CreateShop(c *gin.Context) {
+	var product *models.Shop
+	if err := c.ShouldBind(&product); err != nil {
+		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		return
+	}
+
 	if err := GE.ProductManage.Create(product); err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
 		return
 	}
 }
 
-func GetProduct(c *gin.Context) {
+func GetShop(c *gin.Context) {
 	id := c.Param("id")
 	proudct, err := GE.ProductManage.Get(id)
 	if err != nil {
@@ -35,9 +40,9 @@ func GetProduct(c *gin.Context) {
 	c.JSON(http.StatusOK, proudct)
 }
 
-func UpdateProduct(c *gin.Context) {
+func UpdateShop(c *gin.Context) {
 	id := c.Param("id")
-	var product *models.Product
+	var product *models.Shop
 	if err := GE.ProductManage.Update(id, product); err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
 		return
@@ -45,7 +50,7 @@ func UpdateProduct(c *gin.Context) {
 
 }
 
-func DeleteProduct(c *gin.Context) {
+func DeleteShop(c *gin.Context) {
 	id := c.Param("id")
 	if err := GE.ProductManage.Delete(id); err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})

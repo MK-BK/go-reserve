@@ -2,9 +2,10 @@ package main
 
 import (
 	"go-reserve/api"
-	"go-reserve/common/db"
+	"go-reserve/db"
 	"go-reserve/middle"
 	"go-reserve/models"
+	"go-reserve/server/audit"
 	"log"
 
 	"github.com/gin-gonic/gin"
@@ -17,7 +18,8 @@ func main() {
 
 func startServer() {
 	e := gin.Default()
-	e.Use(middle.NewErrorHandler())
+
+	e.Use(middle.NewAuthHandler(), middle.NewErrorHandler())
 	api.InitRoute(e)
 
 	if err := e.Run(":10086"); err != nil {
@@ -27,7 +29,16 @@ func startServer() {
 
 func initDatabase() {
 	db := db.GetDB()
-	if err := db.AutoMigrate(models.User{}, models.Job{}, models.Product{}, models.Session{}, models.Message{}); err != nil {
+	if err := db.AutoMigrate(
+		models.User{},
+		models.Job{},
+		models.Shop{},
+		models.Session{},
+		models.Message{},
+		models.Commodity{},
+		models.Request{},
+		audit.AuditLog{},
+	); err != nil {
 		panic(err)
 	}
 }

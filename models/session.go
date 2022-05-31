@@ -1,14 +1,24 @@
 package models
 
+import "gorm.io/gorm"
+
 type SessionManage interface {
-	CreateSession(session *Session) error
-	ListSession() ([]*Session, error)
-	GetSession(id string) (*Session, error)
-	DeleteSession(id string) error
+	List() ([]*Session, error)
 	SendMessage(message *Message) error
+
+	Create(session *Session) error
+	Get(id string) (*SessionInfo, error)
+	Delete(id string) error
 }
 
 type Session struct {
-	ID   uint
-	Name string
+	gorm.Model
+	Name   string
+	ShopID string `json:"shopID" binding:"required"`
+	UserID string `json:"userID" binding:"required"`
+}
+
+type SessionInfo struct {
+	Session
+	Message []Message
 }

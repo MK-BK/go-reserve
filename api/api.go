@@ -12,10 +12,18 @@ func InitRoute(e *gin.Engine) {
 	{
 		users := e.Group("/users")
 		users.POST("/login", UserLogin)
+		users.GET("/", ListUsers)
 		users.POST("/", CreateUser)
 		users.GET(":id", GetUser)
 		users.PUT(":id", UpdateUser)
 		users.DELETE(":id", DeleteUser)
+	}
+
+	{
+		request := e.Group("/request")
+		request.GET("/", ListRequest)
+		request.GET("/:id", GetRequest)
+		request.PUT("/:id", UpdateRequest)
 	}
 
 	{
@@ -28,12 +36,21 @@ func InitRoute(e *gin.Engine) {
 	}
 
 	{
-		product := e.Group("/product")
-		product.GET("/", ListProduct)
-		product.POST("/", CreateProduct)
-		product.GET(":id", GetProduct)
-		product.PUT(":id", UpdateProduct)
-		product.DELETE(":id", DeleteProduct)
+		shop := e.Group("/shops")
+		shop.GET("/", ListShop)
+		shop.POST("/", CreateShop)
+		shop.GET(":id", GetShop)
+		shop.PUT(":id", UpdateShop)
+		shop.DELETE(":id", DeleteShop)
+	}
+
+	{
+		commodity := e.Group("/commodity")
+		commodity.GET("/", ListCommodity)
+		commodity.POST("/", CreateCommodity)
+		commodity.GET(":id", GetCommodity)
+		commodity.PUT(":id", UpdateCommodity)
+		commodity.DELETE(":id", DeleteCommodity)
 	}
 
 	{
@@ -44,6 +61,8 @@ func InitRoute(e *gin.Engine) {
 		session.DELETE("/:id", DeleteSession)
 		session.POST("/message", SendMessage)
 	}
+
+	e.GET("/audit_log", ListAuditLog)
 }
 
 func jsonWithResult(c *gin.Context, value interface{}) {

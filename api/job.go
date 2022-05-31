@@ -8,12 +8,12 @@ import (
 )
 
 func ListJob(c *gin.Context) {
-	jobes, err := GE.JobManage.List()
+	jobs, err := GE.JobManage.List()
 	if err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
 		return
 	}
-	c.JSON(http.StatusOK, jobes)
+	c.JSON(http.StatusOK, jobs)
 	return
 }
 

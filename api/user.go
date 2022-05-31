@@ -2,16 +2,28 @@ package api
 
 import (
 	"go-reserve/models"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
-func UserLogin(c *gin.Context) {
-	u := &models.User{}
-	if err := GE.UserManger.Login(u); err != nil {
+func ListUsers(c *gin.Context) {
+	users, err := GE.UserManger.List()
+	if err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
 		return
 	}
+	c.JSON(http.StatusOK, users)
+}
+
+func UserLogin(c *gin.Context) {
+	u := &models.User{}
+	token, err := GE.UserManger.Login(u)
+	if err != nil {
+		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		return
+	}
+	c.JSON(http.StatusOK, token)
 }
 
 func CreateUser(c *gin.Context) {
@@ -29,10 +41,12 @@ func CreateUser(c *gin.Context) {
 
 func GetUser(c *gin.Context) {
 	id := c.Param("id")
-	if _, err := GE.UserManger.Get(id); err != nil {
+	user, err := GE.UserManger.Get(id)
+	if err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
 		return
 	}
+	c.JSON(http.StatusOK, user)
 }
 
 func UpdateUser(c *gin.Context) {

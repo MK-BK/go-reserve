@@ -1,3 +1,0 @@
-package mail
-
-func SendMail() {}
