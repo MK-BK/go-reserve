@@ -2,10 +2,9 @@ package models
 
 import "gorm.io/gorm"
 
-type SessionManage interface {
+type SessionManager interface {
 	List() ([]*Session, error)
 	SendMessage(message *Message) error
-
 	Create(session *Session) error
 	Get(id string) (*SessionInfo, error)
 	Delete(id string) error

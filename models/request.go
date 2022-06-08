@@ -2,6 +2,12 @@ package models
 
 import "gorm.io/gorm"
 
+var (
+	StatusNew     = "new"
+	StatusApprove = "approve"
+	StatusDeny    = "deny"
+)
+
 type RequestManager interface {
 	List() ([]*Request, error)
 	Create(r *Request) error
@@ -11,6 +17,7 @@ type RequestManager interface {
 
 type Request struct {
 	gorm.Model
-	Name  string
-	Email string
+	Name   string
+	Email  string
+	Status string // 管理员审核状态
 }

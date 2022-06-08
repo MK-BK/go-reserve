@@ -7,35 +7,35 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ListJob(c *gin.Context) {
-	jobs, err := GE.JobManage.List()
+func listJobs(c *gin.Context) {
+	jobs, err := GE.JobManager.List()
 	if err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 	c.JSON(http.StatusOK, jobs)
 	return
 }
 
-func CreateJob(c *gin.Context) {
+func createJob(c *gin.Context) {
 	var job models.Job
 
 	if err := c.ShouldBind(&job); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
-	if err := GE.JobManage.Create(&job); err != nil {
+	if err := GE.JobManager.Create(&job); err != nil {
 		c.Errors = append(c.Errors, &gin.Error{Err: err})
 		return
 	}
 }
 
-func GetJob(c *gin.Context) {
+func getJob(c *gin.Context) {
 	id := c.Param("id")
-	job, err := GE.JobManage.Get(id)
+	job, err := GE.JobManager.Get(id)
 	if err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
@@ -43,19 +43,19 @@ func GetJob(c *gin.Context) {
 	return
 }
 
-func UpdateJob(c *gin.Context) {
+func updateJob(c *gin.Context) {
 	var job *models.Job
 	id := c.Param("id")
-	if err := GE.JobManage.Update(id, job); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+	if err := GE.JobManager.Update(id, job); err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 }
 
-func DeleteJob(c *gin.Context) {
+func deleteJob(c *gin.Context) {
 	id := c.Param("id")
-	if err := GE.JobManage.Delete(id); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+	if err := GE.JobManager.Delete(id); err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 }

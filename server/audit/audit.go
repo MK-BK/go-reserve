@@ -1,20 +1,21 @@
 package audit
 
 import (
-	"fmt"
-	"go-reserve/db"
+	"go-reserve/util/db"
+
+	"github.com/sirupsen/logrus"
 )
 
-var (
-	ch  = make(chan *AuditLog, 10)
-	_db = db.GetDB()
-)
+var _db = db.GetDB()
+
+var ch chan *AuditLog
 
 func init() {
-	go notify()
+	ch = make(chan *AuditLog, 10)
+	go worker()
 }
 
-func notify() {
+func worker() {
 	for {
 		al, ok := <-ch
 		if !ok {
@@ -27,6 +28,6 @@ func notify() {
 func save(al *AuditLog) {
 	err := _db.Create(al).Error
 	if err != nil {
-		fmt.Println(err)
+		logrus.Error("error msg")
 	}
 }

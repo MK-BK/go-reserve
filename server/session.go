@@ -6,13 +6,14 @@ import (
 
 type SessionManaer struct{}
 
-var _ models.SessionManage = (*SessionManaer)(nil)
+var _ models.SessionManager = (*SessionManaer)(nil)
 
 func NewSessionManager() *SessionManaer { return &SessionManaer{} }
 
 func (m *SessionManaer) List() ([]*models.Session, error) {
 	var sessions []*models.Session
-	if err := _db.Find(&sessions).Error; err != nil {
+	if err := db.Find(&sessions).Error; err != nil {
+		log.Error(err)
 		return nil, err
 	}
 
@@ -25,11 +26,13 @@ func (m *SessionManaer) Get(id string) (*models.SessionInfo, error) {
 		session  *models.Session
 	)
 
-	if err := _db.Find(&session, id).Error; err != nil {
+	if err := db.Find(&session, id).Error; err != nil {
+		log.Error(err)
 		return nil, err
 	}
 
-	if err := _db.Where("session_id = ?", id).Find(&messages).Error; err != nil {
+	if err := db.Where("session_id = ?", id).Find(&messages).Error; err != nil {
+		log.Error(err)
 		return nil, err
 	}
 
@@ -40,13 +43,13 @@ func (m *SessionManaer) Get(id string) (*models.SessionInfo, error) {
 }
 
 func (m *SessionManaer) Create(session *models.Session) error {
-	return _db.Create(&session).Error
+	return db.Create(&session).Error
 }
 
 func (m *SessionManaer) Delete(id string) error {
-	return _db.Delete(&models.Session{}, id).Error
+	return db.Delete(&models.Session{}, id).Error
 }
 
 func (m *SessionManaer) SendMessage(message *models.Message) error {
-	return _db.Create(message).Error
+	return db.Create(message).Error
 }

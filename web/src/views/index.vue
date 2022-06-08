@@ -8,9 +8,7 @@
             <el-dropdown trigger="click">
                 <span class="el-dropdown-link">
                     <span>admin</span>
-                    <el-icon class="el-icon--right">
-                        <arrow-down />
-                    </el-icon>
+                    <el-icon class="el-icon--right"><arrow-down /></el-icon>
                 </span>
                 <template #dropdown>
                     <el-dropdown-menu>
@@ -26,7 +24,7 @@
                     <router-link to="/users">用户列表</router-link>
                 </el-menu-item>
                 <el-menu-item index="2">
-                        <router-link to="/shops">商铺列表</router-link>
+                    <router-link to="/shops">商铺列表</router-link>
                 </el-menu-item>
                 <el-menu-item index="3">
                     <router-link to="/requests">商铺请求</router-link>
@@ -37,16 +35,14 @@
                 <el-menu-item index="5">
                     <router-link to="/setting">设置</router-link>
                 </el-menu-item>
-                <el-menu-item index="5">
+                <el-menu-item index="6">
                     <router-link to="/job">用户订单</router-link>
                 </el-menu-item>
-                <el-menu-item index="5">
+                <el-menu-item index="7">
                     <router-link to="/commodity">商品列表</router-link>
                 </el-menu-item>
             </el-menu>
-            <el-container>
-                <router-view/>
-            </el-container>
+            <router-view/>
         </el-container>
     </el-container>
 </template>

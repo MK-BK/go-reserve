@@ -1,14 +1,15 @@
 <template>
-    <el-table :data="tableData" style="width: 100%">
-        <el-table-column prop="date" label="Date" width="180" />
-        <el-table-column prop="name" label="Name" width="180" />
-        <el-table-column prop="address" label="Address" />
+    <el-table :data="users" style="width: 100%">
+        <el-table-column prop="Auth" label="auth" />
+        <el-table-column prop="name" label="Name" />
+        <el-table-column prop="Email" label="Email" />
+        <el-table-column prop="CreatedAt" label="CreatedAt" />
     </el-table>
 </template>
 
 <script>
 export default {
-  name: 'User',
+  name: 'user',
   data: function() {
       return {
           users: []
@@ -16,7 +17,6 @@ export default {
   },
   mounted: async function() {
       this.users = await this.$store.dispatch('listusers')
-      debugger
   }
 }
 </script>

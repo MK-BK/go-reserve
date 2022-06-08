@@ -7,53 +7,53 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ListShop(c *gin.Context) {
-	productes, err := GE.ProductManage.List()
+func listShops(c *gin.Context) {
+	productes, err := GE.ProductManager.List()
 	if err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
 	c.JSON(http.StatusOK, productes)
 }
 
-func CreateShop(c *gin.Context) {
+func createShop(c *gin.Context) {
 	var product *models.Shop
 	if err := c.ShouldBind(&product); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
-	if err := GE.ProductManage.Create(product); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+	if err := GE.ProductManager.Create(product); err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 }
 
-func GetShop(c *gin.Context) {
+func getShop(c *gin.Context) {
 	id := c.Param("id")
-	proudct, err := GE.ProductManage.Get(id)
+	proudct, err := GE.ProductManager.Get(id)
 	if err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 	c.JSON(http.StatusOK, proudct)
 }
 
-func UpdateShop(c *gin.Context) {
+func updateShop(c *gin.Context) {
 	id := c.Param("id")
 	var product *models.Shop
-	if err := GE.ProductManage.Update(id, product); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+	if err := GE.ProductManager.Update(id, product); err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 
 }
 
-func DeleteShop(c *gin.Context) {
+func deleteShop(c *gin.Context) {
 	id := c.Param("id")
-	if err := GE.ProductManage.Delete(id); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+	if err := GE.ProductManager.Delete(id); err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 }

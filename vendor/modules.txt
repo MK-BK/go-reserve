@@ -1,3 +1,6 @@
+# github.com/dgrijalva/jwt-go v3.2.0+incompatible
+## explicit
+github.com/dgrijalva/jwt-go
 # github.com/gin-contrib/sse v0.1.0
 ## explicit
 github.com/gin-contrib/sse
@@ -8,6 +11,9 @@ github.com/gin-gonic/gin/binding
 github.com/gin-gonic/gin/internal/bytesconv
 github.com/gin-gonic/gin/internal/json
 github.com/gin-gonic/gin/render
+# github.com/go-ini/ini v1.66.6
+## explicit
+github.com/go-ini/ini
 # github.com/go-playground/locales v0.13.0
 ## explicit
 github.com/go-playground/locales
@@ -45,16 +51,18 @@ github.com/modern-go/concurrent
 # github.com/modern-go/reflect2 v0.0.0-20180701023420-4b7aa43c6742
 ## explicit
 github.com/modern-go/reflect2
+# github.com/sirupsen/logrus v1.8.1
+## explicit
+github.com/sirupsen/logrus
 # github.com/ugorji/go/codec v1.1.7
 ## explicit
 github.com/ugorji/go/codec
 # golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9
-## explicit
 golang.org/x/crypto/sha3
 # golang.org/x/sys v0.0.0-20200116001909-b77594299b42
-## explicit
 golang.org/x/sys/cpu
 golang.org/x/sys/unix
+golang.org/x/sys/windows
 # gopkg.in/yaml.v2 v2.2.8
 ## explicit
 gopkg.in/yaml.v2

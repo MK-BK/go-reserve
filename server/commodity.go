@@ -12,19 +12,21 @@ func NewCommodityManager() *commodityManaer {
 
 func (m *commodityManaer) List() ([]*models.Commodity, error) {
 	var cs []*models.Commodity
-	if err := _db.Find(&cs).Error; err != nil {
+	if err := db.Find(&cs).Error; err != nil {
+		log.Error(err)
 		return nil, err
 	}
 	return cs, nil
 }
 
 func (m *commodityManaer) Create(c *models.Commodity) error {
-	return _db.Create(&c).Error
+	return db.Create(&c).Error
 }
 
 func (m *commodityManaer) Get(id string) (*models.Commodity, error) {
 	var commodity *models.Commodity
-	if err := _db.Find(&commodity, id).Error; err != nil {
+	if err := db.Find(&commodity, id).Error; err != nil {
+		log.Error(err)
 		return nil, err
 	}
 	return commodity, nil
@@ -35,5 +37,5 @@ func (m *commodityManaer) Update(id string, c *models.Commodity) error {
 }
 
 func (m *commodityManaer) Delete(id string) error {
-	return _db.Delete(&models.Commodity{}, id).Error
+	return db.Delete(&models.Commodity{}, id).Error
 }

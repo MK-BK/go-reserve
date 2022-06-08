@@ -7,57 +7,57 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ListCommodity(c *gin.Context) {
-	cs, err := GE.CommodityManage.List()
+func listCommoditys(c *gin.Context) {
+	cs, err := GE.CommodityManager.List()
 	if err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 	c.JSON(http.StatusOK, cs)
 }
 
-func CreateCommodity(c *gin.Context) {
+func createCommodity(c *gin.Context) {
 	var commdity models.Commodity
 	if err := c.ShouldBind(&commdity); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
-	if err := GE.CommodityManage.Create(&commdity); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+	if err := GE.CommodityManager.Create(&commdity); err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 }
 
-func GetCommodity(c *gin.Context) {
+func getCommodity(c *gin.Context) {
 	id := c.Param("id")
-	commdity, err := GE.CommodityManage.Get(id)
+	commdity, err := GE.CommodityManager.Get(id)
 	if err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 	c.JSON(http.StatusOK, commdity)
 }
 
-func UpdateCommodity(c *gin.Context) {
+func updateCommodity(c *gin.Context) {
 	id := c.Param("id")
 	var commdity models.Commodity
 	if err := c.ShouldBind(&commdity); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
-	err := GE.CommodityManage.Update(id, &commdity)
+	err := GE.CommodityManager.Update(id, &commdity)
 	if err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 }
 
-func DeleteCommodity(c *gin.Context) {
+func deleteCommodity(c *gin.Context) {
 	id := c.Param("id")
-	if err := GE.CommodityManage.Delete(id); err != nil {
-		c.Errors = append(c.Errors, &gin.Error{Err: err})
+	if err := GE.CommodityManager.Delete(id); err != nil {
+		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
 }

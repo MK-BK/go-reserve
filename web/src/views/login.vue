@@ -14,8 +14,8 @@
             <el-radio label="2" size="large">店铺管理员</el-radio>
         </el-form-item>
         <el-form-item>
-            <el-button>登录</el-button>
-            <el-button type="primary">注册</el-button>
+            <el-button @click="login">登录</el-button>
+            <el-button type="primary" @click="register">注册</el-button>
         </el-form-item>
     </el-form>
 </template>
@@ -28,18 +28,16 @@ export default {
               name: '',
               password: '',
               email: '',
-              auth: ''
           }
       }
   },
-  method: {
-      login() {
-          this.$store.commit('', user)
-      },
+  methods: {
+    login: async function() {
+        return await this.$store.dispatch('login', this.user)
+    },
+    register: function() {
 
-      register() {
-
-      }
+    }
   }
 }
 </script>

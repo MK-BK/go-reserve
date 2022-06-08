@@ -9,60 +9,46 @@ import (
 var GE = server.Env
 
 func InitRoute(e *gin.Engine) {
-	{
-		users := e.Group("/users")
-		users.POST("/login", UserLogin)
-		users.GET("/", ListUsers)
-		users.POST("/", CreateUser)
-		users.GET(":id", GetUser)
-		users.PUT(":id", UpdateUser)
-		users.DELETE(":id", DeleteUser)
-	}
+	e.POST("/login", login)
+	e.POST("/register", register)
 
-	{
-		request := e.Group("/request")
-		request.GET("/", ListRequest)
-		request.GET("/:id", GetRequest)
-		request.PUT("/:id", UpdateRequest)
-	}
+	e.GET("/accounts", listAccounts)
+	e.GET("/accounts/:id", getAccount)
+	e.PUT("/accounts/:id", updateAccount)
+	e.DELETE("/accounts/:id", deleteAccount)
 
-	{
-		job := e.Group("/jobs")
-		job.GET("/", ListJob)
-		job.POST("/", CreateJob)
-		job.GET(":id", GetJob)
-		job.PUT(":id", UpdateJob)
-		job.DELETE(":id", DeleteJob)
-	}
+	e.GET("/requests", listRequests)
+	e.GET("/requests/:id", getRequest)
+	e.PUT("/requests/:id", updateRequest)
 
-	{
-		shop := e.Group("/shops")
-		shop.GET("/", ListShop)
-		shop.POST("/", CreateShop)
-		shop.GET(":id", GetShop)
-		shop.PUT(":id", UpdateShop)
-		shop.DELETE(":id", DeleteShop)
-	}
+	e.GET("/jobs", listJobs)
+	e.POST("job", createJob)
+	e.GET("/jobs/:id", getJob)
+	e.PUT("/jobs/:id", updateJob)
+	e.DELETE("/jobs/:id", deleteJob)
 
-	{
-		commodity := e.Group("/commodity")
-		commodity.GET("/", ListCommodity)
-		commodity.POST("/", CreateCommodity)
-		commodity.GET(":id", GetCommodity)
-		commodity.PUT(":id", UpdateCommodity)
-		commodity.DELETE(":id", DeleteCommodity)
-	}
+	e.GET("/shops", listShops)
+	e.POST("/shop", createShop)
+	e.GET("/shops/:id", getShop)
+	e.PUT("/shops/:id", updateShop)
+	e.DELETE("/shops/:id", deleteShop)
 
-	{
-		session := e.Group("/sessions")
-		session.POST("/", CreateSession)
-		session.GET("/", ListSessions)
-		session.GET("/:id", GetSession)
-		session.DELETE("/:id", DeleteSession)
-		session.POST("/message", SendMessage)
-	}
+	e.GET("/commodity", listCommoditys)
+	e.POST("/commodity", createCommodity)
+	e.GET("/commodity/:id", getCommodity)
+	e.PUT("/commodity/:id", updateCommodity)
+	e.DELETE("/commodity/:id", deleteCommodity)
 
-	e.GET("/audit_log", ListAuditLog)
+	e.GET("/sessions", listSessions)
+	e.POST("/sessions", createSession)
+	e.GET("/sessions/:id", getSession)
+	e.DELETE("/sessions/:id", deleteSession)
+	e.POST("/sessions/message", sendMessage)
+
+	e.GET("/audit_log", listAuditLog)
+
+	e.POST("/avatar/:resource/:id", uploadAvatar)
+	e.GET("/avatar/:resource/:id", getAvatar)
 }
 
 func jsonWithResult(c *gin.Context, value interface{}) {

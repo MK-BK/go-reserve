@@ -12,7 +12,7 @@ type CommodityManager interface {
 
 type Commodity struct {
 	gorm.Model
-	ShopID      uint   `json:"shopID" binding:"required"`
 	Name        string `json:"name" binding:"required"`
+	ShopID      uint   `json:"shopID" binding:"required"`
 	Description string
 }
