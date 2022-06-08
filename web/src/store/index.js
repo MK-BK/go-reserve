@@ -1,28 +1,53 @@
 import { createStore } from 'vuex'
+
 import http from '../utils/http'
 
 export default createStore({
-  state: {
-    token: "",
-    user: "",
-  },
+	state: {
+		token: '',
+		user: {},
+	},
 
-  getters: {
-  },
+	getters: {
+	},
 
-  mutations: {
-  },
+	mutations: {
+	},
 
-  actions: {
-    login: async function(context, payload) {
-      return await http.post('/api/login', payload)
-    },
+	actions: {
+		login: async function({payload}) {
+			return await http.post('/api/login', payload)
+		},
 
-    listusers: async function() {
-      return await http.get('/api/accounts')
-    }
-  },
+		register: async function({payload}) {
+			return await http.post('/api/register', payload)
+		},
 
-  modules: {
-  }
+		listUsers: async function() {
+			return await http.get('/api/accounts')
+		},
+
+		listShop: async function() {
+			return await http.get('/api/shops')
+		},
+
+		listCommodity: async function() {
+			return await http.get('/api/commodity')
+		},
+
+		listJob: async function() {
+			return await http.get('/api/jobs')
+		},
+
+		listAuditLogs: async function() {
+			return await http.get('/api/audit_log')
+		},
+
+		listRequests: async function() {
+			return await http.get('/api/requests')
+		}
+	},
+
+	modules: {
+	}
 })

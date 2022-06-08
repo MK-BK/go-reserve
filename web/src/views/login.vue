@@ -22,22 +22,23 @@
 
 <script>
 export default {
-  data: function() {
-      return {
-          user: {
-              name: '',
-              password: '',
-              email: '',
-          }
-      }
-  },
-  methods: {
-    login: async function() {
-        return await this.$store.dispatch('login', this.user)
+    data: function() {
+        return {
+            user: {
+                name: '',
+                password: '',
+                email: '',
+            }
+        }
     },
-    register: function() {
-
+    
+    methods: {
+        login: async function() {
+            return await this.$store.dispatch('login', this.user)
+        },
+        register: async function() {
+            return await this.$store.dispatch('register', this.user)
+        }
     }
-  }
 }
 </script>
