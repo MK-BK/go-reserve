@@ -1,11 +1,14 @@
 <template>
-    <el-table :data="this.jobs" style="width: 100%">
-        <el-table-column prop="user_id" label="user_id" />
-        <el-table-column prop="product_id" label="product_id"/>
-        <el-table-column prop="commodity_id" label="commodity_id" />
-        <el-table-column prop="price" label="price" />
-        <el-table-column prop="status" label="status" />
-    </el-table>
+    <div>
+        <div class="view-header">用户订单</div>
+        <el-table :data="this.jobs" style="width: 100%">
+            <el-table-column prop="userID" label="userID" />
+            <el-table-column prop="Price" label="Price"/>
+            <el-table-column prop="commodityID" label="commodityID" />
+            <el-table-column prop="Status" label="Status" />
+            <el-table-column prop="CreatedAt" label="CreatedAt" />
+        </el-table>
+    </div>
 </template>
 
 <script>

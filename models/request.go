@@ -19,5 +19,5 @@ type Request struct {
 	gorm.Model
 	Name   string
 	Email  string
-	Status string // 管理员审核状态
+	Status string
 }

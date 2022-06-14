@@ -2,6 +2,7 @@ package server
 
 import (
 	"go-reserve/models"
+	"go-reserve/server/audit"
 )
 
 type ShopManager struct{}
@@ -21,6 +22,11 @@ func (m *ShopManager) List() ([]*models.Shop, error) {
 }
 
 func (m *ShopManager) Create(shop *models.Shop) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionShopCreate).
+			Notify()
+	}()
 	return db.Create(&shop).Error
 }
 
@@ -35,9 +41,19 @@ func (m *ShopManager) Get(id string) (*models.Shop, error) {
 }
 
 func (m *ShopManager) Update(id string, shop *models.Shop) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionShopUpdate).
+			Notify()
+	}()
 	return nil
 }
 
 func (m *ShopManager) Delete(id string) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionShopDelete).
+			Notify()
+	}()
 	return db.Delete(&models.Shop{}, id).Error
 }

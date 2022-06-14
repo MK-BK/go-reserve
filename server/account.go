@@ -15,6 +15,12 @@ var _ models.AccountManager = (*AccountManager)(nil)
 func NewAccountManager() *AccountManager { return &AccountManager{} }
 
 func (m *AccountManager) Login(body *models.Account) (string, error) {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionAccountLogin).
+			Notify()
+	}()
+
 	password := fmt.Sprintf("%x", md5.Sum([]byte(body.Password)))
 
 	var account models.Account
@@ -32,6 +38,7 @@ func (m *AccountManager) Login(body *models.Account) (string, error) {
 func (m *AccountManager) Create(account *models.Account) error {
 	defer func() {
 		audit.NewAuditLog().
+			WithAction(audit.ActionAccountRegister).
 			InContext(context.Background()).
 			Notify()
 	}()
@@ -39,13 +46,13 @@ func (m *AccountManager) Create(account *models.Account) error {
 	if account.Auth == models.AccountAdmin {
 	}
 
-	if account.Auth == models.AccountProductAdmin {
-		Env.RequestManager.Create(&models.Request{
-			Name:  account.Name,
-			Email: account.Email,
-		})
-		return nil
-	}
+	// if account.Auth == models.AccountProductAdmin {
+	// 	Env.RequestManager.Create(&models.Request{
+	// 		Name:  account.Name,
+	// 		Email: account.Email,
+	// 	})
+	// 	return nil
+	// }
 
 	has := md5.Sum([]byte(account.Password))
 	account.Password = fmt.Sprintf("%x", has)
@@ -78,5 +85,10 @@ func (m *AccountManager) Update(id string, user *models.Account) error {
 }
 
 func (m *AccountManager) Delete(id string) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionAccountDelete).
+			Notify()
+	}()
 	return db.Delete(&models.Account{}, id).Error
 }

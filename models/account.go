@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 const (
 	AccountAdmin = iota
 	AccountProductAdmin
-	AccountProductNormal
+	// AccountProductNormal
 	AccountNormal
 )
 

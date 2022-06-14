@@ -15,11 +15,11 @@ export default createStore({
 	},
 
 	actions: {
-		login: async function({payload}) {
+		login: async function(context, payload) {
 			return await http.post('/api/login', payload)
 		},
 
-		register: async function({payload}) {
+		register: async function(context, payload) {
 			return await http.post('/api/register', payload)
 		},
 
@@ -29,6 +29,10 @@ export default createStore({
 
 		listShop: async function() {
 			return await http.get('/api/shops')
+		},
+
+		createShop: async function(context, payload) {
+			return await http.post('/api/shop', payload)
 		},
 
 		listCommodity: async function() {

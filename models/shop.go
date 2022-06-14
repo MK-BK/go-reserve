@@ -13,6 +13,7 @@ type ShopManager interface {
 
 type Shop struct {
 	gorm.Model
-	Name    string `json:"name" binding:"required"`
-	Address string `json:"address" binding:"required"`
+	Name        string `json:"name" binding:"required"`
+	Address     string `json:"address" binding:"required"`
+	Description string `json:"description"`
 }

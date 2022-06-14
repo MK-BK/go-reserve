@@ -1,5 +1,7 @@
 <template>
-  <router-view/>
+  <div id="#app">
+      <router-view/>
+  </div>
 </template>
 
 <style less>
@@ -10,6 +12,7 @@
   text-align: center;
   color: #2c3e50;
   padding: 10px 20px;
+  height: 100%;
 }
 
 nav {

@@ -4,7 +4,7 @@ const routes = [
 	{
 		path: '/',
 		redirect: to => {
-		return { path: '/login', query: { q: to.params.searchText } }
+			return { path: '/login', query: { q: to.params.searchText } }
 		},
 	},
 	{
@@ -14,15 +14,31 @@ const routes = [
 	{
 		path: '/index',
 		component: () => import(/* webpackChunkName: "about" */ '../views/index.vue'),
+
 		children: [
 		{
 			path: '/users',
-			component: () => import(/* webpackChunkName: "about" */ '../views/user.vue')
+			component: () => import(/* webpackChunkName: "about" */ '../views/user.vue'),
+			children: [
+				{
+					path: '/users/:id/edit',
+					component: () => import(/* webpackChunkName: "about" */ '../components/account/edit.vue')
+				},
+			]
 		},
 		{
 			path: '/shops',
-			component: () => import(/* webpackChunkName: "about" */ '../views/shop.vue')
+			component: () => import(/* webpackChunkName: "about" */ '../views/shop.vue'),
 		},
+		{
+			path: '/shops/:id',
+			component: () => import(/* webpackChunkName: "about" */ '../components/shop/view.vue')
+		},
+		{
+			path: '/shop/create',
+			component: () => import(/* webpackChunkName: "about" */ '../components/shop/create.vue')
+		},
+
 		{
 			path: '/requests',
 			component: () => import(/* webpackChunkName: "about" */ '../views/request.vue')
@@ -42,7 +58,7 @@ const routes = [
 		{
 			path: '/commodity',
 			component: () => import(/* webpackChunkName: "about" */ '../views/commodity.vue')
-		}
+		},
 		]
 	}
 ]

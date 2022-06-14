@@ -17,12 +17,13 @@ type AuditLog struct {
 	gorm.Model
 	UserID string
 	Action string
-	// Labels map[string]string `gorm:"json"`
 	Status string
 }
 
 func NewAuditLog() *AuditLog {
-	return &AuditLog{}
+	return &AuditLog{
+		Status: StatusSuccess,
+	}
 }
 
 func (al *AuditLog) WithAction(action string) *AuditLog {
@@ -39,15 +40,6 @@ func (al *AuditLog) InContext(ctx context.Context) *AuditLog {
 
 	return al
 }
-
-// func (al *AuditLog) AddLable(key, value string) *AuditLog {
-// 	if al.Labels == nil {
-// 		al.Labels = make(map[string]string)
-// 	}
-
-// 	al.Labels[key] = value
-// 	return al
-// }
 
 func (al *AuditLog) DetectError(err error) *AuditLog {
 	al.Status = StatusSuccess

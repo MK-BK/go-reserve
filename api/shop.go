@@ -8,7 +8,7 @@ import (
 )
 
 func listShops(c *gin.Context) {
-	productes, err := GE.ProductManager.List()
+	productes, err := GE.ShoptManager.List()
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
@@ -18,13 +18,13 @@ func listShops(c *gin.Context) {
 }
 
 func createShop(c *gin.Context) {
-	var product *models.Shop
-	if err := c.ShouldBind(&product); err != nil {
+	var shop *models.Shop
+	if err := c.ShouldBind(&shop); err != nil {
 		c.AbortWithError(http.StatusBadRequest, err)
 		return
 	}
 
-	if err := GE.ProductManager.Create(product); err != nil {
+	if err := GE.ShoptManager.Create(shop); err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
@@ -32,7 +32,7 @@ func createShop(c *gin.Context) {
 
 func getShop(c *gin.Context) {
 	id := c.Param("id")
-	proudct, err := GE.ProductManager.Get(id)
+	proudct, err := GE.ShoptManager.Get(id)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
@@ -43,7 +43,7 @@ func getShop(c *gin.Context) {
 func updateShop(c *gin.Context) {
 	id := c.Param("id")
 	var product *models.Shop
-	if err := GE.ProductManager.Update(id, product); err != nil {
+	if err := GE.ShoptManager.Update(id, product); err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
@@ -52,7 +52,7 @@ func updateShop(c *gin.Context) {
 
 func deleteShop(c *gin.Context) {
 	id := c.Param("id")
-	if err := GE.ProductManager.Delete(id); err != nil {
+	if err := GE.ShoptManager.Delete(id); err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}

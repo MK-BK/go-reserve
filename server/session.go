@@ -2,6 +2,7 @@ package server
 
 import (
 	"go-reserve/models"
+	"go-reserve/server/audit"
 )
 
 type SessionManaer struct{}
@@ -43,10 +44,20 @@ func (m *SessionManaer) Get(id string) (*models.SessionInfo, error) {
 }
 
 func (m *SessionManaer) Create(session *models.Session) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionSessionCreate).
+			Notify()
+	}()
 	return db.Create(&session).Error
 }
 
 func (m *SessionManaer) Delete(id string) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionSessionDelete).
+			Notify()
+	}()
 	return db.Delete(&models.Session{}, id).Error
 }
 

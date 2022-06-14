@@ -15,7 +15,7 @@ var (
 type EnvManager struct {
 	AccountManager   models.AccountManager
 	JobManager       models.JobManager
-	ProductManager   models.ShopManager
+	ShoptManager     models.ShopManager
 	SessionManager   models.SessionManager
 	CommodityManager models.CommodityManager
 	RequestManager   models.RequestManager
@@ -24,7 +24,7 @@ type EnvManager struct {
 var Env = EnvManager{
 	AccountManager:   NewAccountManager(),
 	JobManager:       NewJobManager(),
-	ProductManager:   NewShopManager(),
+	ShoptManager:     NewShopManager(),
 	SessionManager:   NewSessionManager(),
 	CommodityManager: NewCommodityManager(),
 	RequestManager:   NewRequestManager(),

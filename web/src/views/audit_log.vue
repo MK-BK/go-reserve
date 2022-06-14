@@ -1,10 +1,14 @@
 <template>
-    <el-table :data="this.auditLogs" style="width: 100%">
-        <el-table-column prop="user_id" label="user_id" />
-        <el-table-column prop="action" label="action" />
-        <el-table-column prop="created_at" label="created_at" />
-        <el-table-column prop="status" label="status" />
-    </el-table>
+    <div>
+        <div class="view-header">日志列表</div>
+        <el-table :data="this.auditLogs" style="width: 100%">
+            <el-table-column prop="UserID" label="UserID" />
+            <el-table-column prop="Action" label="Action" />
+            <el-table-column prop="Status" label="status" />
+            <el-table-column prop="CreatedAt" label="CreatedAt" />
+            <el-table-column :prop="getDescription()" label="Description" />
+        </el-table>
+    </div>
 </template>
 
 <script>
@@ -16,6 +20,11 @@ export default {
     },
     mounted: async function() {
         this.auditLogs = await this.$store.dispatch('listAuditLogs')
+    },
+    methods: {
+        getDescription(log) {
+            return "description"
+        }
     }
 }
 </script>

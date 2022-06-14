@@ -1,6 +1,9 @@
 package server
 
-import "go-reserve/models"
+import (
+	"go-reserve/models"
+	"go-reserve/server/audit"
+)
 
 type commodityManaer struct{}
 
@@ -20,6 +23,12 @@ func (m *commodityManaer) List() ([]*models.Commodity, error) {
 }
 
 func (m *commodityManaer) Create(c *models.Commodity) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionCommodityCreate).
+			Notify()
+	}()
+
 	return db.Create(&c).Error
 }
 
@@ -33,9 +42,21 @@ func (m *commodityManaer) Get(id string) (*models.Commodity, error) {
 }
 
 func (m *commodityManaer) Update(id string, c *models.Commodity) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionCommodityUpdate).
+			Notify()
+	}()
+
 	return nil
 }
 
 func (m *commodityManaer) Delete(id string) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionCommodityDelete).
+			Notify()
+	}()
+
 	return db.Delete(&models.Commodity{}, id).Error
 }

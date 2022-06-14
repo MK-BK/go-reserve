@@ -49,6 +49,8 @@ func InitRoute(e *gin.Engine) {
 
 	e.POST("/avatar/:resource/:id", uploadAvatar)
 	e.GET("/avatar/:resource/:id", getAvatar)
+
+	e.POST("/upload/", uploadFile)
 }
 
 func jsonWithResult(c *gin.Context, value interface{}) {

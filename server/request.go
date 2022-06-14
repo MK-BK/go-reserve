@@ -1,6 +1,9 @@
 package server
 
-import "go-reserve/models"
+import (
+	"go-reserve/models"
+	"go-reserve/server/audit"
+)
 
 type RequestManager struct{}
 
@@ -20,6 +23,12 @@ func (m *RequestManager) List() ([]*models.Request, error) {
 }
 
 func (m *RequestManager) Create(r *models.Request) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionRequestCreate).
+			Notify()
+	}()
+
 	if r.Status == "" {
 		r.Status = models.StatusNew
 	}
@@ -36,9 +45,28 @@ func (m *RequestManager) Get(id string) (*models.Request, error) {
 }
 
 func (m *RequestManager) Update(id string, r *models.Request) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionRequestUpdate).
+			Notify()
+	}()
+
+	if r.Status == models.StatusApprove {
+		// NewEmail().Send()
+
+		go func() {
+
+		}()
+	}
+
 	return nil
 }
 
 func (m *RequestManager) Delete(id string) error {
+	defer func() {
+		audit.NewAuditLog().
+			WithAction(audit.ActionRequestDelete).
+			Notify()
+	}()
 	return db.Delete(&models.Request{}, id).Error
 }
