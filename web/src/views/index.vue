@@ -33,7 +33,7 @@
                     <router-link to="/requests">商铺请求</router-link>
                 </el-menu-item>
                 <el-menu-item index="4">
-                    <router-link to="/job">用户订单</router-link>
+                    <router-link to="/job">我的订单</router-link>
                 </el-menu-item>
                 <el-menu-item index="5">
                     <router-link to="/commodity">商品列表</router-link>
@@ -56,7 +56,12 @@
 export default {
     data() {
         return {
-            
+            menus: {},
+        }
+    },
+    mounted() {
+        if (this.$store.state.user.Auth) {
+
         }
     },
     methods: {
@@ -67,7 +72,8 @@ export default {
             this.$router.push('/setting')
         },
         getMenues() {
-            if (this.store.user.Auth) {
+            debugger
+            if (this.$store.user.Auth) {
 
             }
         }

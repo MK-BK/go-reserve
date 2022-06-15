@@ -61,6 +61,7 @@ export default {
         async create() {
             this.$store.dispatch('createShop', this.shop)
         },
+        
         cancel() {
             this.$router.back()
         }

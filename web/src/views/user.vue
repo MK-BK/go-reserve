@@ -2,14 +2,19 @@
     <div>
         <div class="view-header">用户列表</div>
         <el-table :data="users" style="width: 100%">
-            <el-table-column prop="name" label="Name" />
-            <el-table-column prop="Email" label="Email" />
-            <el-table-column label="Auth">
+            <el-table-column prop="name" label="名称" />
+            <el-table-column prop="Email" label="邮件" />
+            <el-table-column label="用户类型">
                 <template #default="scope">
                     <div>{{getAuth(scope.row.Auth)}}</div>
                 </template>
             </el-table-column>
-            <el-table-column prop="CreatedAt" label="CreatedAt" />
+            <el-table-column label="状态">
+                <template #default="scope">
+                    <div>{{getStatus(scope.row.Enable)}}</div>
+                </template>
+            </el-table-column>
+            <el-table-column prop="CreatedAt" label="创建时间" />
             <el-table-column fixed="right" label="操作" width="100">
                 <template #default="scope">
                     <el-dropdown trigger="click">
@@ -54,8 +59,13 @@ export default {
                     return "普通用户"
             }
         },
+        getStatus(enable) {
+            if (enable) {
+                return '禁用'
+            }
+            return '正常'
+        },
         editUser(user) {
-            debugger
             this.$router.push('/users/1/edit')
         }
     }

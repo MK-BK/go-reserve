@@ -14,12 +14,13 @@ func login(c *gin.Context) {
 		return
 	}
 
-	token, err := GE.AccountManager.Login(&account)
+	ac, token, err := GE.AccountManager.Login(&account)
 	if err != nil {
 		c.AbortWithError(http.StatusInternalServerError, err)
 		return
 	}
-	c.JSON(http.StatusOK, token)
+	c.Writer.Header().Add("token", token)
+	c.JSON(http.StatusOK, ac)
 }
 
 func register(c *gin.Context) {

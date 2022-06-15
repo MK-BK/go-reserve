@@ -48,15 +48,11 @@ export default {
     
     methods: {
         login: async function() {
-            let that = this
-            this.$store.dispatch('login', {
+            await this.$store.dispatch('login', {
                 name: this.user.name,
                 password: this.user.password
-            }).then(function(){
-                that.$router.push("/index")
-            }, function(err) {
-                alert('登录失败，请检查并重新登录')
             })
+            this.$router.push("/index")
         },
 
         register: async function() {

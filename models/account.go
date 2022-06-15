@@ -10,7 +10,7 @@ const (
 )
 
 type AccountManager interface {
-	Login(account *Account) (string, error)
+	Login(account *Account) (*Account, string, error)
 	Create(account *Account) error
 	List() ([]*Account, error)
 	Get(id string) (*Account, error)

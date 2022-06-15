@@ -3,6 +3,7 @@ package server
 import (
 	"go-reserve/models"
 	"go-reserve/server/audit"
+	"go-reserve/util/email"
 )
 
 type RequestManager struct{}
@@ -51,14 +52,24 @@ func (m *RequestManager) Update(id string, r *models.Request) error {
 			Notify()
 	}()
 
-	if r.Status == models.StatusApprove {
-		// NewEmail().Send()
-
-		go func() {
-
-		}()
+	var request models.Request
+	if err := db.Find(&request, id).Error; err != nil {
+		return err
 	}
 
+	if request.Status == models.StatusNew && r.Status == models.StatusApprove {
+		err := email.NewEmail([]string{r.Email})
+		if err != nil {
+			log.Error("Send Email Error:", err)
+			return err
+		}
+
+		if err := db.Model(&models.Request{}).Where("id=?", id).Update("status", r.Status).Error; err != nil {
+			return err
+		}
+	}
+
+	log.Info("this request has been changed")
 	return nil
 }
 

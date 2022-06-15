@@ -14,7 +14,7 @@ var _ models.AccountManager = (*AccountManager)(nil)
 
 func NewAccountManager() *AccountManager { return &AccountManager{} }
 
-func (m *AccountManager) Login(body *models.Account) (string, error) {
+func (m *AccountManager) Login(body *models.Account) (*models.Account, string, error) {
 	defer func() {
 		audit.NewAuditLog().
 			WithAction(audit.ActionAccountLogin).
@@ -25,14 +25,14 @@ func (m *AccountManager) Login(body *models.Account) (string, error) {
 
 	var account models.Account
 	if err := db.Where("name=?", body.Name).Where("password=?", password).First(&account).Error; err != nil {
-		return "", err
+		return nil, "", err
 	}
 
 	if account.Enable {
-		return "", ErrorAccountEnable
+		return nil, "", ErrorAccountEnable
 	}
 
-	return "", nil
+	return &account, "", nil
 }
 
 func (m *AccountManager) Create(account *models.Account) error {
@@ -46,13 +46,13 @@ func (m *AccountManager) Create(account *models.Account) error {
 	if account.Auth == models.AccountAdmin {
 	}
 
-	// if account.Auth == models.AccountProductAdmin {
-	// 	Env.RequestManager.Create(&models.Request{
-	// 		Name:  account.Name,
-	// 		Email: account.Email,
-	// 	})
-	// 	return nil
-	// }
+	if account.Auth == models.AccountProductAdmin {
+		Env.RequestManager.Create(&models.Request{
+			Name:  account.Name,
+			Email: account.Email,
+		})
+		return nil
+	}
 
 	has := md5.Sum([]byte(account.Password))
 	account.Password = fmt.Sprintf("%x", has)

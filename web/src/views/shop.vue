@@ -5,14 +5,13 @@
             <el-button type="primary" @click="createShop">创建商铺</el-button>
         </div>
         <el-table :data="this.shops" style="width: 100%">
-            <el-table-column label="name1">
+            <el-table-column label="名称">
                 <template #default="scope">
                      <router-link to="/shops/1">{{scope.row.name}}</router-link>
                 </template>
             </el-table-column>
-            
-            <el-table-column prop="address" label="address" />
-            <el-table-column prop="description" label="Descrption" />
+            <el-table-column prop="address" label="地址" />
+            <el-table-column prop="description" label="描述信息" />
         </el-table>
     </div>
 </template>

@@ -59,6 +59,10 @@ const routes = [
 			path: '/commodity',
 			component: () => import(/* webpackChunkName: "about" */ '../views/commodity.vue')
 		},
+		{
+			path: '/commodity/create',
+			component: () => import(/* webpackChunkName: "about" */ '../components/commodity/create.vue')
+		},
 		]
 	}
 ]
